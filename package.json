@@ -1,0 +1,16 @@
+{
+  "name": "react-basic",
+  "version": "1.0.0",
+  "description": "basic react setup and practice",
+  "main": "/src/main.js",
+  "author": "Seth Donohue",
+  "license": "MIT",
+  "dependencies": {
+    "babel": "^6.23.0",
+    "webpack": "^4.0.1",
+    "webpack-dev-server": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1"
+  }
+}
