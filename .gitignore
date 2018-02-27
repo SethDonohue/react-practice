@@ -1,0 +1,11 @@
+/node_modules
+/build/Release
+.npm
+.eslintcache
+.node_repl_history
+.yarn-integrity
+.env
+temp
+.vscode
+build
+build/*
