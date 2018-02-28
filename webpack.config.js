@@ -4,7 +4,10 @@ const CleanPlugin = require('clean-webpack-plugin')
 const UglifyPlugin = require('uglifyjs-webpack-plugin')
 const { DefinePlugin, EnvironmentPlugin } =require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 const webpackConfig = module.exports = {};
+
+const PRODUCTION = process.env.NODE_ENV === 'production';
 
 webpackConfig.entry = `${__dirname}/src/main.js`;
 
@@ -17,7 +20,7 @@ webpackConfig.output = {
 // TODO: ADD .env file
 
 webpackConfig.plugins = [
-  new HTMLPlugin({ //TODO: ADD to modules
+  new HTMLPlugin({
     title: 'React Practice Setup',
   }),
   new EnvironmentPlugin(['NODE_ENV']),
@@ -28,7 +31,14 @@ webpackConfig.plugins = [
     filename: 'bundle.[hash].css',
     disable: !PRODUCTION,
   })
-]
+];
+
+if(PRODUCTION) {
+  webpackConfig.plugins = webpackConfig.plugins.concat([
+    new UglifyPlugin(),
+    new CleanPlugin(['build']),
+  ]);
+}
 
 webpackConfig.module = {
   rules: [
@@ -45,11 +55,11 @@ webpackConfig.module = {
     {
       test: /\.js$/,
       exclude: /node_modules/,
-      loader: 'babel-loader', //TODO: ADD babel-loader module
+      loader: 'babel-loader',
     },
     {
       test: /\.scss$/,
-      loader: ExtractTextPlugin.extract({ //TODO: ADD extract-text-webpack-plugin
+      loader: ExtractTextPlugin.extract({ 
         fallback: 'style-loader',
         use: [
           'css-loader',
@@ -65,4 +75,10 @@ webpackConfig.module = {
       }),
     },
   ],
+};
+
+webpackConfig.devtool = PRODUCTION? undefined : 'eval-source-map';
+
+webpackConfig.devServer = {
+  historyApiFallback: true,
 };
